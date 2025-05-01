@@ -1,0 +1,20 @@
+# Ghostty config
+
+# Theme
+theme = Dracula
+
+# Window
+window-padding-x = 5
+window-padding-y = 5
+
+# Background
+background-opacity = 1
+
+# Font
+font-family = Go Jetbrains Mono Nerd Font
+font-style = Regular
+font-size = 28
+
+# Cursor
+cursor-style = block
+cursor-style-blink = false
