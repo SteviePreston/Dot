@@ -1,45 +1,21 @@
 # .aerospace.toml
 
-# Available commands: https://nikitabobko.github.io/AeroSpace/commands
 after-login-command = []
-
-# Available commands: https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = []
-
-# Start AeroSpace at login
 start-at-login = true
 
-# Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
-
-# See: https://nikitabobko.github.io/AeroSpace/guide#layouts
 accordion-padding = 0
-
-# Possible values: tiles|accordion
 default-root-container-layout = "tiles"
-
-# Possible values: horizontal|vertical|auto
 default-root-container-orientation = "auto"
-
-# Mouse follows focus when focused monitor changes
-# Drop it from your config if you don't like this behavior
-# See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
-# See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
-# Fallback value (if you omit the key): on-focused-monitor-changed = []
 on-focused-monitor-changed = ["move-mouse monitor-lazy-center"]
-
-# You can effectively turn off macOS "Hide application" (cmd-h) feature by toggling this flag
-# Useful if you don't use this macOS feature, but accidentally hit cmd-h or cmd-alt-h key
-# Also see: https://nikitabobko.github.io/AeroSpace/goodies#disable-hide-app
 automatically-unhide-macos-hidden-apps = false
 
 # Possible values: (qwerty|dvorak)
-# See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
 [key-mapping]
 preset = "qwerty"
 
-# See https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
 inner.horizontal = 0
 inner.vertical = 0
@@ -48,18 +24,7 @@ outer.bottom = 0
 outer.top = 0
 outer.right = 0
 
-# 'main' binding mode declaration
-# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.main.binding]
-
-# You can uncomment the following lines to open up terminal with alt + enter shortcut (like in i3)
-# alt-enter = '''exec-and-forget osascript -e '
-# tell application "Terminal"
-#     do script
-#     activate
-# end tell'
-# '''
-
 alt-slash = "layout tiles horizontal vertical"
 alt-comma = "layout accordion horizontal vertical"
 
@@ -114,8 +79,6 @@ alt-shift-semicolon = "mode service"
 9 = ["secondary", "main"]
 0 = ["secondary", "main"]
 
-# 'service' binding mode declaration
-# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
 esc = ["reload-config", "mode main"]
 r = ["flatten-workspace-tree", "mode main"] # Reset layout

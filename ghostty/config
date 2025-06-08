@@ -13,7 +13,7 @@ background-opacity = 1
 # Font
 font-family = Go Jetbrains Mono Nerd Font
 font-style = Regular
-font-size = 28
+font-size = 32
 
 # Cursor
 cursor-style = block

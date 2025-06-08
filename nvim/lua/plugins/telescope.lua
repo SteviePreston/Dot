@@ -10,12 +10,11 @@ return {
 				path_display = { "smart" },
 				layout_strategy = "vertical",
 				layout_config = {
-					horizontal = {
-						prompt_position = "bottom",
-						mirror = false,
+					 vertical = {
+					 preview_height = 0.6,
 					},
-					width = 0.8,
-					height = 0.8,
+					width = 0.9,
+					height = 0.9,
 				},
 			},
 		})

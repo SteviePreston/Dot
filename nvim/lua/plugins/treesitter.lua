@@ -7,7 +7,7 @@ return {
     require("nvim-treesitter.configs").setup({
       ensure_installed = {
           "go", "python", "lua", "javascript", "typescript",
-          "terraform", "hcl", "yaml", "dockerfile", "c", "rust", 
+          "terraform", "hcl", "yaml", "dockerfile",  
       }, 
       highlight = { enable = true },
     })

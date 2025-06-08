@@ -1,0 +1,86 @@
+# starship.toml
+
+add_newline = false
+
+[cmd_duration]
+disabled = true
+
+[directory]
+read_only = " 󰌾"
+truncate_to_repo = true
+truncation_length = 4
+
+[git_branch]
+format = "[$symbol$branch(:$remote_branch)]($style) "
+symbol = " "
+
+[git_commit]
+tag_symbol = " "
+
+[package]
+format = "[$symbol$version]($style) "
+symbol = "󰏗 "
+
+[aws]
+format = "[$symbol$version]($style) "
+symbol = "  "
+
+[docker_context]
+format = "[$symbol$version]($style) "
+symbol = " "
+
+[helm]
+format = "[$symbol$version]($style) "
+symbol = "󰠳 "
+
+[hostname]
+format = "[$symbol$version]($style) "
+ssh_symbol = " "
+
+[c]
+format = "[$symbol$version]($style) "
+symbol = "󰙱 "
+
+[golang]
+format = "[$symbol$version]($style) "
+symbol = " "
+
+[lua]
+format = "[$symbol$version]($style) "
+symbol = " "
+
+[nodejs]
+format = "[$symbol$version]($style) "
+symbol = " "
+
+[python]
+format = "[$symbol$version]($style) "
+symbol = " "
+
+[conda]
+format = "[$symbol$version]($style) "
+symbol = " "
+
+[ruby]
+format = "[$symbol$version]($style) "
+symbol = " "
+
+[rust]
+format = "[$symbol$version]($style) "
+symbol = "󱘗 "
+
+[terraform]
+format = "[$symbol$version]($style) "
+symbol = " "
+
+[os.symbols]
+Amazon = " "
+Debian = " "
+Linux = " "
+Macos = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+Solus = "󰠳 "
+Ubuntu = " "
+
