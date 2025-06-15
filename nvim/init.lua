@@ -45,6 +45,8 @@ vim.g.mapleader = " "
 local opts = { noremap = true, silent = true }
 
 vim.keymap.set("i", "<C-c>", "<Esc>", opts)
+vim.keymap.set("n", "<leader>bn", ":bn<CR>", opts)
+vim.keymap.set("n", "<leader>bp", ":bp<CR>", opts)
 vim.keymap.set("n", "n", "nzzzv", opts)
 vim.keymap.set("n", "N", "Nzzzv", opts)
 vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
