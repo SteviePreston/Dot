@@ -9,7 +9,9 @@ return {
 			shade_terminals = true,
 			direction = "float",
 			float_opts = {
-				border = "curved", -- Options: "single", "double", "shadow", "curved"
+				border = "curved",
+        			width = math.floor(vim.o.columns * 0.95),
+				height = math.floor(vim.o.lines * 0.85),
 			},
 		})
 	end,
