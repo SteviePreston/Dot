@@ -7,43 +7,20 @@ return {
     local actions = require("fzf-lua.actions")
     require("fzf-lua").setup({
       winopts = { 
-        height = 0.9, 
-        width = 0.9 
+        height = 0.85, 
+        width = 0.9,
+        preview = {
+            border = "rounded",
+            vertical = "up:60%",
+            layout = "vertical",
+        },
       },
       fzf_opts = {
         ["--layout"] = "default",   
         ["--info"] = "hidden",
         ["--no-separator"] = "",
       },
-      files = {
-        prompt = "Find Files: ",
-        winopts = {
-          preview = {
-            border = "rounded",
-            vertical = "up:80%",
-            layout = "vertical",
-          },
-        },
-      },
-      grep = {
-        prompt = "Rip Grep: ",
-        winopts = {
-          preview = {
-            border = "rounded",
-            vertical = "up:80%",
-            layout = "vertical",
-          },
-        },
-      },
       lsp = {
-        prompt    = "LSP References: ",
-        winopts = {
-          preview = {
-            border = "rounded",
-            vertical = "up:60%",
-            layout = "vertical",
-          },
-        },
         cwd_only          = false,
         async_or_timeout  = 5000,
         file_icons        = true,
@@ -51,23 +28,14 @@ return {
         includeDeclaration = true,
       },
       diagnostics = {
-        prompt = "Diagnostics: ",
-        winopts = {
-          preview = {
-            border = "rounded",
-            vertical = "up:60%",
-            layout = "vertical",
-          },
-        },
         cwd_only          = false,
         file_icons        = false,
         git_icons         = false,
         color_headings    = true,
         icon_padding      = "",
-        multiline         = 3,
+        multiline         = 2,
       },
       keymaps = {
-        prompt = "Keymaps: ",
         winopts = { 
           preview = { 
             hidden = "hidden",
@@ -87,10 +55,12 @@ return {
 
     -- Keybindings
     vim.keymap.set("n", "<leader>ff", require("fzf-lua").files, { desc = "FZF: Find Files" })
+    vim.keymap.set("n", "<leader>fo", require("fzf-lua").oldfiles, { desc = "FZF: Find Old Files" })
     vim.keymap.set("n", "<leader>fg", require("fzf-lua").live_grep, { desc = "FZF: Live Grep" })
     vim.keymap.set("n", "<leader>fb", require("fzf-lua").buffers, { desc = "FZF: Buffers" })
-    vim.keymap.set("n", "<leader>fh", require("fzf-lua").help_tags, { desc = "FZF: Help Tags" })
-    vim.keymap.set("n", "<leader>fl", require("fzf-lua").resume, { desc = "FZF: Resume" })
+    vim.keymap.set("n", "<leader>fr", require("fzf-lua").resume, { desc = "FZF: Resume Search" })
+    vim.keymap.set("n", "<leader>fl", require("fzf-lua").lines, { desc = "FZF: Lines" })
+    vim.keymap.set("n", "<leader>fh", require("fzf-lua").search_history, { desc = "FZF: Search History" })
 
     vim.keymap.set("n", "lsd", require("fzf-lua").lsp_definitions, { desc = "LSP: Definitions" })
     vim.keymap.set("n", "lsr", require("fzf-lua").lsp_references, { desc = "LSP: References" })
