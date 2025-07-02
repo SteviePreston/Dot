@@ -43,8 +43,8 @@ vim.opt.clipboard = "unnamedplus"
 
 -- Key Maps
 vim.g.mapleader = " "
-local opts = { noremap = true, silent = true }
 
+local opts = { noremap = true, silent = true }
 vim.keymap.set("i", "<C-c>", "<Esc>", opts)
 vim.keymap.set("n", "<leader>bn", ":bn<CR>", opts)
 vim.keymap.set("n", "<leader>bp", ":bp<CR>", opts)
@@ -54,20 +54,10 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
 vim.keymap.set("n", "<C-u>", "<C-u>zz", opts)
 vim.keymap.set("n", "<leader>ls", "<CMD>LspRestart<CR>", opts)
 
-vim.keymap.set('n', '<Up>', '<nop>', opts)
-vim.keymap.set('n', '<Down>', '<nop>', opts)
-vim.keymap.set('n', '<Left>', '<nop>', opts)
-vim.keymap.set('n', '<Right>', '<nop>', opts)
-
-vim.keymap.set('v', '<Up>', '<nop>', opts)
-vim.keymap.set('v', '<Down>', '<nop>', opts)
-vim.keymap.set('v', '<Left>', '<nop>', opts)
-vim.keymap.set('v', '<Right>', '<nop>', opts)
-
-vim.keymap.set('i', '<Up>', '<nop>', opts)
-vim.keymap.set('i', '<Down>', '<nop>', opts)
-vim.keymap.set('i', '<Left>', '<nop>', opts)
-vim.keymap.set('i', '<Right>', '<nop>', opts)
+vim.keymap.set({"n","v","i"}, "<Up>", "<nop>", opts)
+vim.keymap.set({"n","v","i"}, "<Down>", "<nop>", opts)
+vim.keymap.set({"n","v","i"}, "<Left>", "<nop>", opts)
+vim.keymap.set({"n","v","i"}, "<Right>", "<nop>", opts)
 
 -- Format on Save Auto Command
 vim.api.nvim_create_autocmd("LspAttach", {
