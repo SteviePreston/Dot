@@ -37,7 +37,6 @@ return {
 					["gitsigns.nvim"] = true,
 					["todo-comments.nvim"] = true,
 					["lazy.nvim"] = true,
-					["telescope.nvim"] = true,
 				},
 			})
 			vim.cmd.colorscheme("dracula")
