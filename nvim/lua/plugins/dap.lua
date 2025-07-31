@@ -3,89 +3,97 @@
 return {
 	"mfussenegger/nvim-dap",
 	dependencies = {
-		"rcarriga/nvim-dap-ui",
-		"nvim-neotest/nvim-nio",
 		"jay-babu/mason-nvim-dap.nvim",
 		"williamboman/mason.nvim",
-		"nvim-telescope/telescope-dap.nvim",
+		"theHamsta/nvim-dap-virtual-text", 
 	},
 	config = function()
 		require("mason").setup()
 		require("mason-nvim-dap").setup({
-			ensure_installed = { "delve" },
+			ensure_installed = { "delve", "debugpy", "js-debug-adapter" },
 			automatic_installation = true,
 		})
 
-		local dap = require("dap")
-    -- Breakpoint 
-    vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint" })
-		vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = "red" })
+		local function set_dap_colors()
+			vim.api.nvim_set_hl(0, "NvimDapVirtualText", {
+                fg = vim.api.nvim_get_hl_by_name("DiagnosticInfo", true).foreground,
+				bold = true,
+                italic = true,
+                reverse = true,
+			})
+			
+            vim.api.nvim_set_hl(0, "NvimDapVirtualTextChanged", {
+                fg = vim.api.nvim_get_hl_by_name("DiagnosticWarn", true).foreground,
+				bold = true,
+                italic = true,
+                reverse = true,
+			})
 
-    -- Widget Window
-  		local dapui = require("dapui")
-		dapui.setup({
-			floating = {
-				max_height = 0.25,
-				max_width = 0.4,
-				border = "rounded",
-				mappings = {
-					close = { "q", "<Esc>" },
-				},
-			},
-			layouts = {},
+			vim.api.nvim_set_hl(0, "NvimDapVirtualTextError", {
+                fg = vim.api.nvim_get_hl_by_name("DiagnosticError", true).foreground,
+				bold = true,
+                italic = true,
+                reverse = true,
+			})
+		end
+		
+		-- Initalize Dap Colors
+		set_dap_colors()
+		vim.api.nvim_create_autocmd("ColorScheme", {
+			callback = set_dap_colors,
+			desc = "Update DAP virtual text highlights on colorscheme change"
 		})
 		
-		local current_float_win = nil
-		local current_float_buf = nil
+		-- Setup virtual text
+        require("nvim-dap-virtual-text").setup({
+			enabled = true,
+			enabled_commands = true,
+			highlight_changed_variables = true,
+			highlight_new_as_changed = true,
+			show_stop_reason = true,
+			commented = false,
+			only_first_definition = true,
+			all_references = false,
+			clear_on_continue = false,
+			
+			display_callback = function(variable, buf, stackframe, node)
+				return " → " .. variable.value
+			end,
+		})
 		
-		local function close_window()
-			if current_float_win and vim.api.nvim_win_is_valid(current_float_win) then
-				vim.api.nvim_win_close(current_float_win, true)
-			end
-			if current_float_buf and vim.api.nvim_buf_is_valid(current_float_buf) then
-				vim.api.nvim_buf_delete(current_float_buf, { force = true })
-			end
-			current_float_win = nil
-			current_float_buf = nil
-		end
+		local dap = require("dap")
 		
-		local function show_variable()
-			close_window()
-			dapui.float_element("scopes", { enter = false })
-		end
+		-- Minimal breakpoint styling
+        vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint" })
+        vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = "red" })
+        vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DapStopped" })
+        vim.api.nvim_set_hl(0, "DapStopped", { fg = "red" })
 		
-		dap.listeners.after.event_stopped["custom_float"] = function() show_variable() end
-		dap.listeners.before.event_terminated["custom_float"] = function() close_window() end
-		dap.listeners.before.event_exited["custom_float"] = function() close_window() end
+		-- Go configuration
+		dap.adapters.go = { 
+			type = "server", 
+			port = "${port}",
+			executable = { 
+				command = vim.fn.stdpath("data") .. "/mason/packages/delve/dlv", 
+				args = { "dap", "-l", "127.0.0.1:${port}" } 
+			},
+		}
+		
+		dap.configurations.go = {
+			{ type = "go", name = "Debug File", request = "launch", program = "${file}" },
+			{ type = "go", name = "Debug Test", request = "launch", mode = "test", program = "${file}" },
+			{ type = "go", name = "Debug Directory", request = "launch", program = "${fileDirname}" },
+		}
 
-    -- Go Lang Configuration
-    dap.adapters.go = { type = "server", port = "${port}",
-      executable = { command = vim.fn.stdpath("data") .. "/mason/packages/delve/dlv", 
-      args = { "dap", "-l", "127.0.0.1:${port}" } },
-    }
-
-    dap.configurations.go = {
-      { type = "go", name = "Debug File", request = "launch", program = "${file}" },
-      { type = "go", name = "Debug Test", request = "launch", mode = "test", program = "${file}" },
-      { type = "go", name = "Debug Directory", request = "launch", program = "${fileDirname}" },
-      { type = "go", name = "Debug Workspace", request = "launch", program = "${workspaceFolder}" },
-    }
-
-    -- Keymaps
-		vim.keymap.set("n", "<Leader>ds", function() require("dap").continue() end, 
-    { noremap = true, silent = true, desc = "DAP: Start Debugging" })
-    vim.keymap.set("n", "<Leader>dq", function() require("dap").terminate()	
-    require("dap").close() close_window() end,
-    { noremap = true, silent = true, desc = "DAP: Quit Debugging" })
-    vim.keymap.set("n", "<Leader>dv", function() show_variable() end, 
-    { noremap = true, silent = true, desc = "DAP: Show Current Variable" })
-		vim.keymap.set("n", "<Leader>dp", function() require("dap").step_over() end,
-    { noremap = true, silent = true, desc = "DAP: Step Over" })
-		vim.keymap.set("n", "<Leader>di", function() require("dap").step_into() end, 
-    { noremap = true, silent = true, desc = "DAP: Step Into" })
-		vim.keymap.set("n", "<Leader>do", function() require("dap").step_out() end, 
-    { noremap = true, silent = true, desc = "DAP: Step Out" })
-		vim.keymap.set("n", "<Leader>db", function() require("dap").toggle_breakpoint() end, 
-    { noremap = true, silent = true, desc = "DAP: Toggle Breakpoint" })
+        -- TODO: Configure debugpy
+        -- TODO: Configure js-debug-adapter
+		
+		-- Minimal keymaps
+		vim.keymap.set("n", "<Leader>ds", dap.continue, { desc = "DAP: Start/Continue" })
+		vim.keymap.set("n", "<Leader>dq", function() dap.terminate() dap.close() end, { desc = "DAP: Quit" })
+		vim.keymap.set("n", "<Leader>dp", dap.step_over, { desc = "DAP: Step Over" })
+		vim.keymap.set("n", "<Leader>di", dap.step_into, { desc = "DAP: Step Into" })
+		vim.keymap.set("n", "<Leader>do", dap.step_out, { desc = "DAP: Step Out" })
+		vim.keymap.set("n", "<Leader>db", dap.toggle_breakpoint, { desc = " DAP: Toggle Breakpoint" })
 	end,
 }
