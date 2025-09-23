@@ -1,0 +1,30 @@
+[user]
+	name = StevieP
+	email = <redacted, No spam emails from webscapers lol>
+
+[core]
+    editor = nvim
+    pager = bat 
+    excludesfile = ~/.config/git/.gitignore_global
+
+[push]
+    default = current
+
+[pull]
+    rebase = true
+
+[init]
+	defaultBranch = main
+
+[credential]
+	helper = store
+
+[alias]
+  cout  = checkout
+  com   = commit -m
+  stat  = status
+  bran  = branch
+  hist  = log --pretty=format:\"%h %af | %s%d [%an]\" --graph --date=short
+  addp  = add -p
+  all   = !git add . && git commit -m
+  undo  = reset --soft HEAD~1
