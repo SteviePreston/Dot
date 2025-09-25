@@ -15,7 +15,6 @@ export NVM_DIR="$HOME/.nvm"
  
 # Zsh auto suggestions
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=yellow'
 # Tmux 
 source ~/.config/tmux/tmux.conf
 # Bash
@@ -28,9 +27,14 @@ alias la='ls -Fal'
 alias ls='ls -F'
 alias cdr='project-root'
 alias hist='history-exec'
+alias gcout='git-checkout'
+alias glog='git-log'
+alias gstat='git-status'
+alias gtags='git-tag-checkout'
 
 # Keybinds
 bindkey '^G' autosuggest-accept
 bindkey '^P' project-nav-func
 bindkey '^H' history-exec-func
 bindkey '^T' tmux-session-func
+bindkey '^G' git-status-func
