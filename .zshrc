@@ -15,6 +15,9 @@ export NVM_DIR="$HOME/.nvm"
  
 # Zsh auto suggestions
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+# Neovim
+export EDITOR=nvim
+export VISUAL=nvim
 # Tmux 
 source ~/.config/tmux/tmux.conf
 # Bash
