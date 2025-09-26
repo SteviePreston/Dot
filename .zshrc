@@ -34,9 +34,10 @@ alias gcout='git-checkout'
 alias glog='git-log'
 alias gstat='git-status'
 alias gtags='git-tag-checkout'
+alias gclr='git clean -fd && git restore .'
 
 # Keybinds
-bindkey '^G' autosuggest-accept
+bindkey '^L' autosuggest-accept
 bindkey '^P' project-nav-func
 bindkey '^H' history-exec-func
 bindkey '^T' tmux-session-func
