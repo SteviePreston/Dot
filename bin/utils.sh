@@ -29,3 +29,27 @@ project-root() {
     local root=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
     cd "$root"
 }
+
+find-replace() {
+    git-check || return 1
+    
+    echo -n "Search: "
+    read search
+    
+    if [[ -z "$search" ]]; then
+        echo "Search pattern cannot be empty"
+        return 1
+    fi
+    
+    echo -n "Replace: "
+    read replace
+    
+    echo -n "File extensions (optional, e.g. go,md,yaml): "
+    read extensions
+    
+    if [[ -n "$extensions" ]]; then
+        fastmod "$search" "$replace" --extensions "$extensions"
+    else
+        fastmod "$search" "$replace"
+    fi
+}
