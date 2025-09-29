@@ -23,25 +23,6 @@ get-default-branch() {
     echo "${branch:-main}"
 }
 
-git-checkout() {
-    git-check || return 1
-    tmux-check || return 1
-    
-    local branch=$((git branch -a | grep -v HEAD | sed 's/^..//' | sed 's/remotes\/origin\///' | sort -u) | \
-        fzf --tmux 70%,60% --prompt='Git Checkout: ')
-    
-    if [[ -n "$branch" ]]; then
-        branch=$(echo "$branch" | xargs)
-        if git rev-parse --verify "$branch" >/dev/null 2>&1; then
-            echo "Checking out branch: $branch"
-            git checkout "$branch"
-        else
-            echo "Creating branch: $branch"
-            git checkout -b "$branch"
-        fi
-    fi
-}
-
 git-log() {
     git-check || return 1
     tmux-check || return 1
@@ -55,33 +36,32 @@ git-log() {
         )+abort'
 }
 
-git-status() {
+git-diff() {
+   git-check || return 1
+   tmux-check || return 1
+   
+   git diff --name-only | \
+   fzf --tmux 90%,90% --preview='git diff --color=always -- {}' \
+       --preview-window=down:70%
+}
+
+git-checkout() {
     git-check || return 1
     tmux-check || return 1
     
-    git status --porcelain | \
-    fzf --tmux 90%,90% --multi --prompt='Git Status: ' \
-        --preview='
-            file=$(echo {} | cut -c4-)
-            git_status=$(echo {} | cut -c1-2)
-            echo "Status: $git_status"
-            echo "File: $file"
-            echo
-            if [[ -f "$file" ]]; then
-                if [[ "$git_status" == *"A"* ]] || [[ "$git_status" == *"M"* ]] && git diff --cached --name-only | grep -q "^$file$"; then
-                    echo "[STAGED CHANGES]"
-                    git diff --cached --color=always "$file" 2>/dev/null
-                fi
-                if [[ "$git_status" == *"M"* ]] || [[ "$git_status" == " M" ]]; then
-                    echo "[UNSTAGED CHANGES]"
-                    git diff --color=always "$file" 2>/dev/null
-                fi
-            fi
-        ' \
-        --preview-window=down:70% \
-        --bind='ctrl-a:execute-silent(git add {4..})+reload(git status --porcelain)' \
-        --bind='ctrl-r:execute-silent(git restore {4..})+reload(git status --porcelain)' \
-        --header='C-a: add | C-r: restore | Enter: view'
+    local branch=$(git branch -a | grep -v HEAD | sed 's/^..//' | sed 's/remotes\/origin\///' | sort -u | \
+    fzf --tmux 70%,60% --prompt='Git Checkout: ')
+    
+    if [[ -n "$branch" ]]; then
+        branch=$(echo "$branch" | xargs)
+        if git rev-parse --verify "$branch" >/dev/null 2>&1; then
+            echo "Checking out branch: $branch"
+            git checkout "$branch"
+        else
+            echo "Creating branch: $branch"
+            git checkout -b "$branch"
+        fi
+    fi
 }
 
 git-tag-checkout() {
@@ -115,4 +95,37 @@ git-tag-checkout() {
     fi
 }
 
-
+git-status() {
+    git-check || return 1
+    tmux-check || return 1
+    
+    local selection=$(git status --porcelain | \
+        fzf --tmux 90%,90% --multi --prompt='Git Status: ' \
+            --preview='
+                file=$(echo {} | awk "{print substr(\$0, 4)}")
+                git_status=$(echo {} | cut -c1-2)
+                echo "Status: $git_status"
+                echo "File: $file"
+                echo
+                if [[ -f "$file" ]]; then
+                    git diff --cached --color=always -- "$file" 2>/dev/null
+                    git diff --color=always -- "$file" 2>/dev/null
+                fi
+            ' \
+            --preview-window=down:70% \
+            --expect=ctrl-a,ctrl-r \
+            --header='C-a: stage | C-r: unstage')
+    
+    local key=$(echo "$selection" | head -1)
+    local files=$(echo "$selection" | tail -n +2 | awk '{print substr($0, 4)}')
+    
+    if [[ -z "$files" ]]; then
+        return 0
+    fi
+    
+    if [[ "$key" == "ctrl-r" ]]; then
+        echo "$files" | xargs -I {} git restore --staged -- {}
+    elif [[ "$key" == "ctrl-a" ]]; then
+        echo "$files" | xargs -I {} git add -- {}
+    fi
+}
