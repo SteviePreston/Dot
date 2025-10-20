@@ -26,6 +26,7 @@ return {
       dashboard.button("b", "  Git Branch", ":FzfLua git_branches<CR>"),
       dashboard.button("c", "  Config", ":FzfLua files cwd=~/.config/nvim<CR>"),
       dashboard.button("l", "  Lazy", ":Lazy<CR>"),
+      dashboard.button("q", "  Quit", ":qa<CR>"),
     }
     
     alpha.setup(dashboard.config)
