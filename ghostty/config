@@ -1,8 +1,7 @@
 # Ghostty config
 
 # Theme
-# theme = Dracula
-theme = GruvboxDark
+theme = Gruvbox Material Dark
 
 # Window
 window-padding-x = 5
@@ -12,8 +11,8 @@ window-padding-y = 5
 background-opacity = 1
 
 # Font
-font-family = Go Jetbrains Mono Nerd Font
-font-style = Regular
+font-family = Jetbrains Mono Nerd Font
+font-style = Bold
 font-size = 34
 
 # Cursor
