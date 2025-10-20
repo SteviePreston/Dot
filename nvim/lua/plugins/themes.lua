@@ -1,46 +1,16 @@
 -- themes.lua
 
 return {
-	{
-		"maxmx03/dracula.nvim",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			local dracula = require("dracula")
-			dracula.setup({
-				styles = {
-					Type = {},
-					Function = {},
-					Parameter = {},
-					Property = {},
-					Comment = {},
-					String = {},
-					Keyword = {},
-					Identifier = {},
-					Constant = {},
-				},
-				transparent = true,
-				on_colors = function(colors, color)
-					return {
-						mycolor = "#ffffff",
-					}
-				end,
-				on_highlights = function(colors, color)
-					return {
-						Normal = { fg = colors.mycolor },
-					}
-				end,
-				plugins = {
-					["nvim-treesitter"] = true,
-					["nvim-lspconfig"] = true,
-					["nvim-cmp"] = true,
-					["gitsigns.nvim"] = true,
-					["todo-comments.nvim"] = true,
-					["lazy.nvim"] = true,
-				},
-			})
-			vim.cmd.colorscheme("dracula")
-		end,
+    {
+      'sainnhe/gruvbox-material',
+      lazy = false,
+      priority = 1000,
+      config = function()
+        -- Optionally configure and load the colorscheme
+        -- directly inside the plugin declaration.
+        vim.g.gruvbox_material_enable_italic = true
+        vim.cmd.colorscheme('gruvbox-material')
+    end,
 	},
 	{
 		"nvim-lualine/lualine.nvim",
@@ -54,3 +24,4 @@ return {
 		},
 	},
 }
+
