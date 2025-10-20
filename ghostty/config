@@ -7,13 +7,18 @@ theme = Gruvbox Material Dark
 window-padding-x = 5
 window-padding-y = 5
 
+# Window-Decoration
+window-subtitle = false
+window-decoration = none
+macos-titlebar-style = hidden
+
 # Background
 background-opacity = 1
 
 # Font
 font-family = Jetbrains Mono Nerd Font
-font-style = Bold
-font-size = 34
+font-style = bold
+font-size = 32
 
 # Cursor
 cursor-style = block
