@@ -1,75 +1,80 @@
 -- cmp.lua
 
 return {
-	"hrsh7th/nvim-cmp",
-	dependencies = {
-		"hrsh7th/cmp-nvim-lsp",
-		"hrsh7th/cmp-path",
-		"hrsh7th/cmp-cmdline",
-		"L3MON4D3/LuaSnip",
-		"saadparwaiz1/cmp_luasnip",
-	},
+    "saghen/blink.cmp",
+    dependencies = { 
+        "nvim-tree/nvim-web-devicons" 
+    },
+    version = "*",
+    lazy = false,
+    opts = {
+        appearance = {
+            use_nvim_cmp_as_default = true,
+            nerd_font_variant = "mono",
+        },
 
-	config = function()
-		local cmp = require("cmp")
-		local luasnip = require("luasnip")
+        completion = {
+            menu = {
+            border = "rounded",
+            auto_show = true,
+            draw = {
+                columns = { { "kind_icon", gap = 1 }, { "label", "label_description", gap = 1 }, { "kind" } },
+            },
+        },
 
-		cmp.setup({
-			snippet = {
-				expand = function(args)
-					luasnip.lsp_expand(args.body)
-				end,
-			},
+        documentation = {
+            auto_show = true, auto_show_delay_ms = 200,
+            window = {
+                border = "rounded",
+            },
+        },
 
-			formatting = {
-				format = function(entry, vim_item)
-					vim_item.kind = ""
-					return vim_item
-				end,
-			},
+        accept = {
+            auto_brackets = {
+                enabled = true,
+            },
+        },
 
-			window = {
-				completion = cmp.config.window.bordered({
-					border = "rounded",
-					winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
-					col_offset = -3,
-					side_padding = 0,
-				}),
-				documentation = cmp.config.window.bordered(),
-			},
+        ghost_text = {
+            enabled = true,
+        },
+    },
 
-			sources = cmp.config.sources({
-				{ name = "nvim_lsp" },
-				{ name = "luasnip" },
-				{ name = "path" },
-			}),
+        signature = {
+            enabled = true,
+            window = {
+                border = "rounded",
+            },
+        },
 
-			sorting = {
-				comparators = {
-					cmp.config.compare.offset,
-					cmp.config.compare.exact,
-					cmp.config.compare.score,
-					cmp.config.compare.kind,
-					cmp.config.compare.length,
-					cmp.config.compare.order,
-				},
-			},
-		})
+        keymap = {
+            preset = "none",
+            ['<CR>'] = { 'select_and_accept', 'fallback' },
+            ["<C-k>"] = { "select_prev", "fallback" },
+            ["<C-j>"] = { "select_next", "fallback" },
+            ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+            ["<C-u>"] = { "scroll_documentation_up", "fallback" },
+            ["<C-d>"] = { "scroll_documentation_down", "fallback" },
+            ['<Tab>'] = { 'snippet_forward', 'fallback' },
+            ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
+        },
 
-		cmp.setup.cmdline("/", {
-			mapping = cmp.mapping.preset.cmdline(),
-			sources = {
-				{ name = "buffer" },
-			},
-		})
+        sources = {
+            default = { "lsp", "path", "snippets" }, 
+        },
 
-		cmp.setup.cmdline(":", {
-			mapping = cmp.mapping.preset.cmdline(),
-			sources = cmp.config.sources({
-				{ name = "path" },
-			}, {
-				{ name = "cmdline" },
-			}),
-		})
-	end,
+        cmdline = {
+            enabled = true,
+            sources = function()
+                local type = vim.fn.getcmdtype()
+                if type == "/" or type == "?" then
+                    return { "buffer" }
+                end
+                if type == ":" then
+                    return { "cmdline", "path" }
+                end
+                return {}
+                end,
+        },
+    },
 }
