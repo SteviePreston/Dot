@@ -28,6 +28,7 @@ alias glog='git-log'
 alias gstat='git-status'
 alias gtags='git-tag-checkout'
 alias gclr='git clean -fd && git restore .'
+alias config='cd ~/.config'
 
 # Keybinds
 bindkey '^L' autosuggest-accept
