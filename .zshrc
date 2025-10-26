@@ -11,7 +11,6 @@ export NVM_DIR="$HOME/.nvm"
  
 # Load Config
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.config/tmux/tmux.conf
 source ~/.config/bin/setup.sh
 source <(starship init zsh)
 
