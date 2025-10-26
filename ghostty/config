@@ -1,15 +1,13 @@
 # Ghostty config
 
 # Theme
-theme = Gruvbox Material Dark
-
-# Window
-window-padding-x = 5
-window-padding-y = 5
+theme = Gruvbox Dark Hard
 
 # Window-Decoration
 window-subtitle = false
 window-decoration = none
+window-padding-x = 0
+window-padding-y = 0
 macos-titlebar-style = hidden
 
 # Background
