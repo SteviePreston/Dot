@@ -17,21 +17,21 @@ source <(starship init zsh)
 # Alias
 alias nv="nvim"
 alias tf="terraform"
-alias la='ls -Fal'
-alias ls='ls -F'
-alias cdr='project-root'
-alias hist='history-exec'
-alias fandr='find-replace'  
-alias gcout='git-checkout'
-alias glog='git-log'
-alias gstat='git-status'
-alias gtags='git-tag-checkout'
-alias gclr='git clean -fd && git restore .'
-alias config='cd ~/.config'
+alias la="ls -Fal"
+alias ls="ls -F"
+alias cdr="project-root"
+alias hist="history-exec"
+alias fandr="find-replace"  
+alias gcout="git-checkout"
+alias glog="git-log"
+alias gstat="git-status"
+alias gtags="git-tag-checkout"
+alias gclr="git clean -fd && git restore ."
+alias config="cd ~/.config"
 
 # Keybinds
-bindkey '^L' autosuggest-accept
-bindkey '^P' project-nav-func
-bindkey '^H' history-exec-func
-bindkey '^T' tmux-session-func
-bindkey '^G' git-status-func
+bindkey "^L" autosuggest-accept
+bindkey "^P" project-nav-func
+bindkey "^H" history-exec-func
+bindkey "^T" tmux-session-func
+bindkey "^G" git-status-func
