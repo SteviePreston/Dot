@@ -129,7 +129,7 @@ vim.keymap.set("n", "<leader>gt", function()
     local file = vim.fn.expand("%:p") 
     local alternate
       
-        if file:match("_test%.go$:") then
+        if file:match("_test%.go$") then
             alternate = file:gsub("_test%.go$", ".go")
         elseif file:match("%.go$") then
             alternate = file:gsub("%.go$", "_test.go")
