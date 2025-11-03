@@ -68,7 +68,7 @@ return {
         vim.keymap.set("n", "<leader>sr", require("fzf-lua").lsp_references, { desc = "LSP: References" })
         vim.keymap.set("n", "<leader>si", require("fzf-lua").lsp_implementations, { desc = "LSP: Implementations" })
         vim.keymap.set("n", "<leader>sf", require("fzf-lua").lsp_document_symbols, { desc = "LSP: File Symbols" })
-        vim.keymap.set("n", "<leader>sw", require("fzf-lua").lsp_workspace_symbols, { desc = "LSP: Global Symbols" })
+        vim.keymap.set("n", "<leader>sw", require("fzf-lua").lsp_live_workspace_symbols, { desc = "LSP: Workspace Symbols" })
 
         -- diagnostics
         vim.keymap.set("n", "<leader>dq", require("fzf-lua").quickfix, { desc = "LSP: Quickfix" })
