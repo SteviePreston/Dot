@@ -63,10 +63,12 @@ return {
         vim.keymap.set("n", "<leader>fl", require("fzf-lua").lines, { desc = "FZF: Lines" })
         vim.keymap.set("n", "<leader>fh", require("fzf-lua").search_history, { desc = "FZF: Search History" })
 
-        -- server
-        vim.keymap.set("n", "<leader>sd", require("fzf-lua").lsp_definitions, { desc = "LSP: Definitions" })
-        vim.keymap.set("n", "<leader>sr", require("fzf-lua").lsp_references, { desc = "LSP: References" })
-        vim.keymap.set("n", "<leader>si", require("fzf-lua").lsp_implementations, { desc = "LSP: Implementations" })
+        -- lsp
+        vim.keymap.set("n", "<leader>ld", require("fzf-lua").lsp_definitions, { desc = "LSP: Definitions" })
+        vim.keymap.set("n", "<leader>lr", require("fzf-lua").lsp_references, { desc = "LSP: References" })
+        vim.keymap.set("n", "<leader>li", require("fzf-lua").lsp_implementations, { desc = "LSP: Implementations" })
+
+        -- symbols
         vim.keymap.set("n", "<leader>sf", require("fzf-lua").lsp_document_symbols, { desc = "LSP: File Symbols" })
         vim.keymap.set("n", "<leader>sw", require("fzf-lua").lsp_live_workspace_symbols, { desc = "LSP: Workspace Symbols" })
 
